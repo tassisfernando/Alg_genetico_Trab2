@@ -5,7 +5,7 @@ import domain.IndividuoNRainhas;
 
 public class IndividuoNRainhasFactory implements IndividuoFactory {
 
-    private int nRainhas;
+    private final int nRainhas;
 
     @Override
     public Individuo getIndividuo() {
