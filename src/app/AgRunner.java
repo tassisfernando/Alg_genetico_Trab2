@@ -1,9 +1,14 @@
 package app;
 
 import domain.Ag;
-import domain.Individuo;
 import domain.factory.IndividuoFactory;
 import domain.factory.IndividuoNRainhasFactory;
+import domain.individuo.Individuo;
+import domain.individuo.IndividuoNRainhas;
+
+import java.util.List;
+
+import static java.math.BigDecimal.ONE;
 
 public class AgRunner {
 
@@ -12,12 +17,27 @@ public class AgRunner {
         final int N_RAINHAS = 8;
         final int N_ELITE = 4;
         final int N_GER = 1000;
+        final boolean IS_MAX = false;
 
         IndividuoFactory indFactory = new IndividuoNRainhasFactory(N_RAINHAS);
         Ag ag = new Ag();
-        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, false, N_GER);
+        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER);
 
-        System.out.println(ind);
+        printInd(ind, N_GER, IS_MAX);
 
+    }
+
+    private static void printInd(Individuo indMelhor, int nGer, boolean isMax) {
+        IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
+        List<Integer> genes = individuoNRainhas.getGenes();
+
+        System.out.println("Geração  --  Avaliação  --  Indivíduo");
+        System.out.print("\t\t" + nGer + "\t\t");
+        Double avaliacao = isMax ? individuoNRainhas.getAvaliacao() : (ONE.doubleValue() / individuoNRainhas.getAvaliacao());
+        System.out.printf("\t\t\t %s", avaliacao);
+
+        for(Integer gene : genes) {
+            System.out.print(gene + "\t");
+        }
     }
 }

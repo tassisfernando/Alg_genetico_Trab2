@@ -1,7 +1,7 @@
 package domain.factory;
 
-import domain.Individuo;
-import domain.IndividuoNRainhas;
+import domain.individuo.Individuo;
+import domain.individuo.IndividuoNRainhas;
 
 public class IndividuoNRainhasFactory implements IndividuoFactory {
 

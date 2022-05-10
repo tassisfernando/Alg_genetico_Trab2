@@ -1,61 +1,143 @@
 package domain;
 
 import domain.factory.IndividuoFactory;
+import domain.individuo.Individuo;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
+import static java.util.Collections.shuffle;
+import static java.util.Comparator.reverseOrder;
 
 public class Ag {
 
-    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer) {
-        // TODO for para criar nPop individuos em uma lista
+    private Random random;
 
-        // TODO aleatoriamente selecionar duplas de indivíduos para o crossover
-
-        /*
-         * TODO para cada dupla {
-         *      List<Individuo> fList = p1.getFilho(p2);
-         *      filhosList.addAll(fList);
-         * }
-         */
-
-        /*
-         * TODO para cada pai {
-         *      Individuo mut = p.getMutante(p2);
-         *      mutantesList.add(mut);
-         * }
-         */
-
-        /* TODO
-            List<Individuo> joinPop = new ArrayList<>();
-            joinPop.addAll(pop);
-            joinPop.addAll(filhosList);
-            joinPop.addAll(mutantesList);
-         */
-
-        /* TODO
-            Selecionar os nElite individuos p/ newPop
-            Utilizar lst.stream()
-                         .sorted(Comparator.reverseOrder())
-                         .limit(5)
-                         .collect(Collectors.toList());
-         */
-
-        /* TODO
-            List<Individuo> restanteList = this.roleta(joinPop, nPop - nElite, isMax);
-            newPop.addAll(restanteList);
-            popIni.clear();
-            popIni.addAll(newPop);
-         */
-
-        /* TODO
-            Retornar ao ponto de gerar filho e mutantes. Fazendo isto, nGer gerações
-            return do melhor da última geração
-         */
-
-        return null;
+    public Ag() {
+        random = new Random();
     }
 
-    private List<Individuo> roleta(List<Individuo> joinPop, int nRestantes, boolean isMax) {
-        return null;
+    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer) {
+        List<Individuo> popPais = new ArrayList<>();
+        List<Individuo> popFilhos;
+        List<Individuo> popMutantes;
+        List<Individuo> popJoin = new ArrayList<>();
+        List<Individuo> popNova = new ArrayList<>();
+
+        // Laço para criar nPop individuos em uma lista
+        for(int i = 0; i < nPop; i++) {
+            popPais.add(indFactory.getIndividuo());
+        }
+
+        for(int i = 0; i < nGer; i++) {
+            // Embaralha os pais
+            shuffle(popPais);
+
+            // Faz o crossover
+            popFilhos = crossOver(popPais, nPop);
+
+            // Faz a mutação
+            popMutantes = getMutantes(popPais);
+
+            // Faz o join de toda a população
+            popJoin.addAll(popPais);
+            popJoin.addAll(popFilhos);
+            popJoin.addAll(popMutantes);
+
+            // Avalia todos os indivíduos
+            popJoin.forEach(Individuo::getAvaliacao);
+
+            // Seleciona os nElite melhores
+            List<Individuo> popElite = selecionaElite(popJoin, isMax, nElite);
+            popNova.addAll(popElite);
+            popJoin.removeAll(popElite);
+
+            // Seleciona pela roleta o restante
+            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite);
+            popNova.addAll(restanteList);
+
+            if(isMax) {
+                popNova = popNova.stream().sorted().limit(nElite).collect(Collectors.toList());
+            } else {
+                popNova = popNova.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList());
+            }
+
+            popPais.clear();
+            popPais.addAll(popNova);
+            popJoin.clear();
+            popNova.clear();
+        }
+
+        return popPais.stream().findFirst().orElse(null);
+    }
+
+    // TODO alterar para selecionar pais aleatórios
+    private List<Individuo> crossOver(List<Individuo> popPais, int nPop) {
+        List<Individuo> auxPais = new ArrayList<>(popPais);
+        List<Individuo> popFilhos = new ArrayList<>();
+
+        while(!auxPais.isEmpty()) {
+            int pos1 = random.nextInt(auxPais.size());
+            auxPais.remove(pos1);
+            int pos2 = random.nextInt(auxPais.size());
+            auxPais.remove(pos2);
+
+            Individuo pai1 = popPais.get(pos1);
+            Individuo pai2 = popPais.get(pos2);
+            List<Individuo> filhos = pai1.getFilhos(pai2);
+            popFilhos.addAll(filhos);
+        }
+
+        return popFilhos;
+    }
+
+    private List<Individuo> getMutantes(List<Individuo> popPais) {
+        List<Individuo> popMutantes = new ArrayList<>();
+        for(Individuo pai : popPais) {
+            Individuo mutante = pai.getMutante();
+            popMutantes.add(mutante);
+        }
+
+        return popMutantes;
+    }
+
+    private List<Individuo> selecionaElite(List<Individuo> popJoin, boolean isMax, int nElite) {
+        return isMax ?
+                popJoin.stream().sorted().limit(nElite).collect(Collectors.toList()) :
+                popJoin.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList());
+    }
+
+    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes) {
+        List<Individuo> popTemp = new ArrayList<>(joinPop);
+        List<Individuo> popSelec = new ArrayList<>();
+        Collections.shuffle(popTemp);
+
+        Individuo escolhido;
+        for(int i = ZERO.intValue(); i < nRestantes; i++) {
+            escolhido = roleta(joinPop);
+            popSelec.add(escolhido);
+            popTemp.remove(escolhido);
+        }
+
+        return popSelec;
+    }
+
+    private Individuo roleta(List<Individuo> pop) {
+        double somaAvaliacao = pop.stream().mapToDouble(Individuo::getAvaliacao).sum();
+        double limite = Math.random() * somaAvaliacao;
+        Double aux = ZERO.doubleValue();
+        int pos;
+
+        for(pos = ZERO.intValue(); ((pos < pop.size()) && (aux < limite)); pos++) {
+            aux += pop.get(pos).getAvaliacao();
+        }
+        pos--;
+
+        return pop.get(pos);
     }
 }
