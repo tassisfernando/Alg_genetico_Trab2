@@ -1,6 +1,5 @@
 package utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import static java.math.BigDecimal.ZERO;
 public class Utils {
 
     public static int MENOS_UM = -1;
-    public static int DOIS = 2;
 
     public static List<Integer> criarPosicoes(int max) {
         List<Integer> posicoes = new ArrayList<>(max);

@@ -35,8 +35,9 @@ public class IndividuoNRainhas extends Individuo {
             genes.add(pos, i);
             posicoes.remove(pos);
         }
-
         genes.removeIf(gene -> gene.equals(MENOS_UM));
+        shuffle(genes);
+
         return genes;
     }
 
@@ -119,7 +120,7 @@ public class IndividuoNRainhas extends Individuo {
     }
 
     private void adicionaGenesFaltantes(List<Integer> genesFilhoAtual, List<Integer> genesResto) {
-        while(genesFilhoAtual.contains(MENOS_UM) && !genesResto.isEmpty()) { //TODO alterei essa condição aqui
+        while(genesFilhoAtual.contains(MENOS_UM) && !genesResto.isEmpty()) {
             int posGenInv = genesFilhoAtual.indexOf(MENOS_UM);
             int posResF2 = genesResto.size() - ONE.intValue();
             genesFilhoAtual.set(posGenInv, genesResto.get(posResF2));
@@ -145,8 +146,8 @@ public class IndividuoNRainhas extends Individuo {
     private List<Integer> trocaGenes(int pos1, int pos2) {
         List<Integer> genesMut = new ArrayList<>(this.genes);
         Integer genPos1 = genesMut.get(pos1);
-        genesMut.add(pos1, genesMut.get(pos2));
-        genesMut.add(pos2, genPos1);
+        genesMut.set(pos1, genesMut.get(pos2));
+        genesMut.set(pos2, genPos1);
         return genesMut;
     }
 

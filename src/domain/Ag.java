@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.shuffle;
 import static java.util.Comparator.reverseOrder;
@@ -28,6 +27,7 @@ public class Ag {
         List<Individuo> popMutantes;
         List<Individuo> popJoin = new ArrayList<>();
         List<Individuo> popNova = new ArrayList<>();
+        List<Individuo> popElite;
 
         // Laço para criar nPop individuos em uma lista
         for(int i = 0; i < nPop; i++) {
@@ -39,7 +39,7 @@ public class Ag {
             shuffle(popPais);
 
             // Faz o crossover
-            popFilhos = crossOver(popPais, nPop);
+            popFilhos = crossOver(popPais);
 
             // Faz a mutação
             popMutantes = getMutantes(popPais);
@@ -53,7 +53,7 @@ public class Ag {
             popJoin.forEach(Individuo::getAvaliacao);
 
             // Seleciona os nElite melhores
-            List<Individuo> popElite = selecionaElite(popJoin, isMax, nElite);
+            popElite = selecionaElite(popJoin, isMax, nElite);
             popNova.addAll(popElite);
             popJoin.removeAll(popElite);
 
@@ -62,33 +62,35 @@ public class Ag {
             popNova.addAll(restanteList);
 
             if(isMax) {
-                popNova = popNova.stream().sorted().limit(nElite).collect(Collectors.toList());
+                popNova = popNova.stream().sorted().collect(Collectors.toList());
             } else {
-                popNova = popNova.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList());
+                popNova = popNova.stream().sorted(reverseOrder()).collect(Collectors.toList());
             }
 
             popPais.clear();
             popPais.addAll(popNova);
             popJoin.clear();
             popNova.clear();
+            popElite.clear();
+            popMutantes.clear();
+            popFilhos.clear();
         }
 
         return popPais.stream().findFirst().orElse(null);
     }
 
-    // TODO alterar para selecionar pais aleatórios
-    private List<Individuo> crossOver(List<Individuo> popPais, int nPop) {
+    private List<Individuo> crossOver(List<Individuo> popPais) {
         List<Individuo> auxPais = new ArrayList<>(popPais);
         List<Individuo> popFilhos = new ArrayList<>();
 
         while(!auxPais.isEmpty()) {
             int pos1 = random.nextInt(auxPais.size());
+            Individuo pai1 = auxPais.get(pos1);
             auxPais.remove(pos1);
             int pos2 = random.nextInt(auxPais.size());
+            Individuo pai2 = auxPais.get(pos2);
             auxPais.remove(pos2);
 
-            Individuo pai1 = popPais.get(pos1);
-            Individuo pai2 = popPais.get(pos2);
             List<Individuo> filhos = pai1.getFilhos(pai2);
             popFilhos.addAll(filhos);
         }
@@ -119,7 +121,7 @@ public class Ag {
 
         Individuo escolhido;
         for(int i = ZERO.intValue(); i < nRestantes; i++) {
-            escolhido = roleta(joinPop);
+            escolhido = roleta(popTemp);
             popSelec.add(escolhido);
             popTemp.remove(escolhido);
         }

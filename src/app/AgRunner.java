@@ -31,10 +31,10 @@ public class AgRunner {
         IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
         List<Integer> genes = individuoNRainhas.getGenes();
 
-        System.out.println("Geração  --  Avaliação  --  Indivíduo");
-        System.out.print("\t\t" + nGer + "\t\t");
+        System.out.println("Geração  --  Avaliação  -- Genes indivíduo");
+        System.out.print(nGer + "\t\t");
         Double avaliacao = isMax ? individuoNRainhas.getAvaliacao() : (ONE.doubleValue() / individuoNRainhas.getAvaliacao());
-        System.out.printf("\t\t\t %s", avaliacao);
+        System.out.printf("  %1.4f\t", avaliacao);
 
         for(Integer gene : genes) {
             System.out.print(gene + "\t");
