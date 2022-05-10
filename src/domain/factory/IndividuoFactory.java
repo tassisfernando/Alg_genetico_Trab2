@@ -1,6 +1,6 @@
 package domain.factory;
 
-import domain.Individuo;
+import domain.individuo.Individuo;
 
 public interface IndividuoFactory {
 
