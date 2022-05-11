@@ -4,7 +4,6 @@ import domain.factory.IndividuoFactory;
 import domain.individuo.Individuo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -116,7 +115,7 @@ public class Ag {
     private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax) {
         List<Individuo> popTemp = new ArrayList<>(joinPop);
         List<Individuo> popSelec = new ArrayList<>();
-        Collections.shuffle(popTemp);
+        shuffle(popTemp);
 
         Individuo escolhido;
         for(int i = ZERO.intValue(); i < nRestantes; i++) {
