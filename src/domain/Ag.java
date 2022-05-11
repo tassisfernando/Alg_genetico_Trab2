@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.shuffle;
 import static java.util.Comparator.reverseOrder;
@@ -58,14 +59,12 @@ public class Ag {
             popJoin.removeAll(popElite);
 
             // Seleciona pela roleta o restante
-            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite);
+            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite, isMax);
             popNova.addAll(restanteList);
 
-            if(isMax) {
-                popNova = popNova.stream().sorted().collect(Collectors.toList());
-            } else {
-                popNova = popNova.stream().sorted(reverseOrder()).collect(Collectors.toList());
-            }
+            popNova = isMax ?
+                    popNova.stream().sorted().collect(Collectors.toList()) :
+                    popNova.stream().sorted(reverseOrder()).collect(Collectors.toList());
 
             popPais.clear();
             popPais.addAll(popNova);
@@ -114,14 +113,14 @@ public class Ag {
                 popJoin.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList());
     }
 
-    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes) {
+    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax) {
         List<Individuo> popTemp = new ArrayList<>(joinPop);
         List<Individuo> popSelec = new ArrayList<>();
         Collections.shuffle(popTemp);
 
         Individuo escolhido;
         for(int i = ZERO.intValue(); i < nRestantes; i++) {
-            escolhido = roleta(popTemp);
+            escolhido = roleta(popTemp, isMax);
             popSelec.add(escolhido);
             popTemp.remove(escolhido);
         }
@@ -129,8 +128,11 @@ public class Ag {
         return popSelec;
     }
 
-    private Individuo roleta(List<Individuo> pop) {
-        double somaAvaliacao = pop.stream().mapToDouble(Individuo::getAvaliacao).sum();
+    private Individuo roleta(List<Individuo> pop, boolean isMax) {
+        double somaAvaliacao = isMax ?
+                pop.stream().mapToDouble(Individuo::getAvaliacao).sum() :
+                pop.stream().mapToDouble(individuo -> ONE.doubleValue() / individuo.getAvaliacao()).sum();
+
         double limite = Math.random() * somaAvaliacao;
         Double aux = ZERO.doubleValue();
         int pos;

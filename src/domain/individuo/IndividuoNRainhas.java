@@ -1,11 +1,15 @@
 package domain.individuo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.shuffle;
-import static utils.Utils.*;
+import static utils.Utils.MENOS_UM;
+import static utils.Utils.criarPosicoes;
 
 public class IndividuoNRainhas extends Individuo {
 
@@ -19,25 +23,20 @@ public class IndividuoNRainhas extends Individuo {
         this.genes = geraGenes();
     }
 
-    public IndividuoNRainhas(int nRainhas, List<Integer> genes) {
+    public IndividuoNRainhas(List<Integer> genes) {
         this.random = new Random();
-        this.nRainhas = nRainhas;
+        this.nRainhas = genes.size();
         this.genes = genes;
     }
 
     private List<Integer> geraGenes() {
-        final int maxGenes = this.nRainhas;
-        List<Integer> genes = iniciarLista(maxGenes);
-        List<Integer> posicoes = criarPosicoes(maxGenes);
+        List<Integer> genes = new ArrayList<>();
 
-        for(int i = ZERO.intValue(); i < maxGenes; i++) {
-            int pos = random.nextInt(posicoes.size());
-            genes.add(pos, i);
-            posicoes.remove(pos);
+        for(int i = ZERO.intValue(); i < this.nRainhas; i++) {
+            genes.add(i);
         }
-        genes.removeIf(gene -> gene.equals(MENOS_UM));
-        shuffle(genes);
 
+        shuffle(genes);
         return genes;
     }
 
@@ -45,11 +44,10 @@ public class IndividuoNRainhas extends Individuo {
      * Retorna o fitness do indivíduo pelo número de colisões
      * @return fitness
      */
-    @Override
     public Double avaliar() {
         Double nColisoes = ZERO.doubleValue();
         for(int i = ZERO.intValue(); i < this.nRainhas - ONE.intValue(); i++) {
-            for (int j = ZERO.intValue(); j < this.nRainhas; j++) {
+            for (int j = i + ONE.intValue(); j < this.nRainhas; j++) {
                 int diag1 = this.genes.get(j) - Math.abs(j-i);
                 int diag2 = this.genes.get(j) + Math.abs(j-i);
                 if(this.genes.get(i).equals(diag1) || this.genes.get(i).equals(diag2)) {
@@ -98,8 +96,8 @@ public class IndividuoNRainhas extends Individuo {
             adicionaGenesFaltantes(genesFilho1, genesRestoFilho2);
             adicionaGenesFaltantes(genesFilho2, genesRestoFilho1);
 
-            Individuo filho1 = new IndividuoNRainhas(this.nRainhas, genesFilho1);
-            Individuo filho2 = new IndividuoNRainhas(this.nRainhas, genesFilho2);
+            Individuo filho1 = new IndividuoNRainhas(genesFilho1);
+            Individuo filho2 = new IndividuoNRainhas(genesFilho2);
 
             return Arrays.asList(filho1, filho2);
         }
@@ -140,7 +138,7 @@ public class IndividuoNRainhas extends Individuo {
         int pos2 =  random.nextInt(posicoes.size());
         posicoes.remove(pos2);
 
-        return new IndividuoNRainhas(nRainhas, trocaGenes(pos1, pos2));
+        return new IndividuoNRainhas(trocaGenes(pos1, pos2));
     }
 
     private List<Integer> trocaGenes(int pos1, int pos2) {
@@ -158,5 +156,11 @@ public class IndividuoNRainhas extends Individuo {
 
     public List<Integer> getGenes() {
         return this.genes;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> genes = Arrays.asList(0, 1, 2, 3, 4, 5, 6 ,7);
+        Individuo individuo = new IndividuoNRainhas(genes);
+        System.out.println(individuo.avaliar());
     }
 }
