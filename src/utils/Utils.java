@@ -16,13 +16,4 @@ public class Utils {
         }
         return posicoes;
     }
-
-    public static List<Integer> iniciarLista(int max) {
-        List<Integer> lista = new ArrayList<>(max);
-        for(int i = ZERO.intValue(); i < max; i++) {
-            lista.add(MENOS_UM);
-        }
-        return lista;
-    }
-
 }
