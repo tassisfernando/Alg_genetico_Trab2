@@ -1,7 +1,7 @@
-package domain;
+package engine;
 
-import domain.factory.IndividuoFactory;
-import domain.individuo.Individuo;
+import model.factory.IndividuoFactory;
+import model.individuo.Individuo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.shuffle;
 import static java.util.Comparator.reverseOrder;
+import static utils.Utils.printInd;
 
 public class Ag {
 
@@ -72,6 +73,8 @@ public class Ag {
             popElite.clear();
             popMutantes.clear();
             popFilhos.clear();
+
+            printInd(popPais.stream().findFirst().get(), i);
         }
 
         return popPais.stream().findFirst().orElse(null);

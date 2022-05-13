@@ -1,5 +1,8 @@
 package utils;
 
+import model.individuo.Individuo;
+import model.individuo.IndividuoNRainhas;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,5 +18,18 @@ public class Utils {
             posicoes.add(i);
         }
         return posicoes;
+    }
+
+    public static void printInd(Individuo indMelhor, int nGer) {
+        IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
+        List<Integer> genes = individuoNRainhas.getGenes();
+
+        System.out.println("\nGeração  --  Colisões  -- Genes indivíduo");
+        System.out.print(nGer + "\t\t\t");
+        System.out.printf("  %1.4f\t\t", individuoNRainhas.getAvaliacao());
+
+        for(Integer gene : genes) {
+            System.out.print(gene + "\t");
+        }
     }
 }

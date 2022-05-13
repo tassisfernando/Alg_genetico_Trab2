@@ -1,4 +1,4 @@
-package domain.individuo;
+package model.individuo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

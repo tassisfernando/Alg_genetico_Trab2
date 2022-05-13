@@ -1,7 +1,7 @@
-package domain.factory;
+package model.factory;
 
-import domain.individuo.Individuo;
-import domain.individuo.IndividuoNRainhas;
+import model.individuo.Individuo;
+import model.individuo.IndividuoNRainhas;
 
 public class IndividuoNRainhasFactory implements IndividuoFactory {
 
