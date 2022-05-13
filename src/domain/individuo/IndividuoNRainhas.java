@@ -157,10 +157,4 @@ public class IndividuoNRainhas extends Individuo {
     public List<Integer> getGenes() {
         return this.genes;
     }
-
-    public static void main(String[] args) {
-        List<Integer> genes = Arrays.asList(0, 1, 2, 3, 4, 5, 6 ,7);
-        Individuo individuo = new IndividuoNRainhas(genes);
-        System.out.println(individuo.avaliar());
-    }
 }

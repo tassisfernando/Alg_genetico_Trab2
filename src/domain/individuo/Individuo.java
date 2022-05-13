@@ -26,10 +26,10 @@ public abstract class Individuo implements Comparable<Individuo> {
     @Override
     public int compareTo(Individuo individuo) {
         if(this.getAvaliacao() > individuo.getAvaliacao()) {
-            return MENOS_UM;
+            return ONE.intValue();
         }
         if(this.getAvaliacao() < individuo.getAvaliacao()) {
-            return ONE.intValue();
+            return MENOS_UM;
         }
         return ZERO.intValue();
     }

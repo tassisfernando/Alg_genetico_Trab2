@@ -12,7 +12,7 @@ public class AgRunner {
 
     public static void main(String[] args) {
         final int N_POP = 30;
-        final int N_RAINHAS = 50;
+        final int N_RAINHAS = 100;
         final int N_ELITE = 4;
         final int N_GER = 2000;
         final boolean IS_MAX = false;

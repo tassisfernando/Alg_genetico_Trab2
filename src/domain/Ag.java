@@ -62,8 +62,8 @@ public class Ag {
             popNova.addAll(restanteList);
 
             popNova = isMax ?
-                    popNova.stream().sorted().collect(Collectors.toList()) :
-                    popNova.stream().sorted(reverseOrder()).collect(Collectors.toList());
+                    popNova.stream().sorted(reverseOrder()).collect(Collectors.toList()) :
+                    popNova.stream().sorted().collect(Collectors.toList());
 
             popPais.clear();
             popPais.addAll(popNova);
@@ -108,8 +108,8 @@ public class Ag {
 
     private List<Individuo> selecionaElite(List<Individuo> popJoin, boolean isMax, int nElite) {
         return isMax ?
-                popJoin.stream().sorted().limit(nElite).collect(Collectors.toList()) :
-                popJoin.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList());
+                popJoin.stream().sorted(reverseOrder()).limit(nElite).collect(Collectors.toList()) :
+                popJoin.stream().sorted().limit(nElite).collect(Collectors.toList());
     }
 
     private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax) {
