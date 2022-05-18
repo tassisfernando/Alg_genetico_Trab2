@@ -2,7 +2,7 @@ package app;
 
 import engine.Ag;
 import model.factory.IndividuoFactory;
-import model.factory.IndividuoNRainhasFactory;
+import model.factory.impl.IndividuoLevyFunctionFactory;
 import model.individuo.Individuo;
 
 import static utils.Utils.printInd;
@@ -16,7 +16,7 @@ public class AgRunner {
         final int N_GER = 2000;
         final boolean IS_MAX = false;
 
-        IndividuoFactory indFactory = new IndividuoNRainhasFactory(N_RAINHAS);
+        IndividuoFactory indFactory = new IndividuoLevyFunctionFactory(N_RAINHAS, 0.4);
         Ag ag = new Ag();
         Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER);
 
