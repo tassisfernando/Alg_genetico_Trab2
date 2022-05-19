@@ -2,7 +2,6 @@ package model.factory.impl;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;
-import model.individuo.IndividuoLevyFunction;
 import model.individuo.IndividuoSchwefelFunction;
 
 public class IndividuoSchwefelFunctionFactory implements IndividuoFactory {

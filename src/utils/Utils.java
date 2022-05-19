@@ -28,7 +28,7 @@ public class Utils {
         IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
         List<Integer> genes = individuoNRainhas.getGenes();
 
-        System.out.println("\nGeração  --  Colisões  -- Genes indivíduo");
+        System.out.println("\nGeração  --  Avaliação  -- Genes indivíduo");
         System.out.print(nGer + "\t\t\t");
         System.out.printf("  %1.4f\t\t", individuoNRainhas.getAvaliacao());
 
