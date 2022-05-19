@@ -11,6 +11,8 @@ import static java.math.BigDecimal.ZERO;
 public class Utils {
 
     public final static int MENOS_UM = -1;
+    public final static int DOIS = 2;
+    public final static int CEM = 100;
 
     public final static Double SCHWEFEL_CONST = 418.9829D;
 

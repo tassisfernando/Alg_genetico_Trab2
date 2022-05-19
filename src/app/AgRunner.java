@@ -16,7 +16,7 @@ public class AgRunner {
         final int N_GER = 2000;
         final boolean IS_MAX = false;
 
-        IndividuoFactory indFactory = new IndividuoLevyFunctionFactory(N_RAINHAS, 0.4);
+        IndividuoFactory indFactory = new IndividuoLevyFunctionFactory(N_RAINHAS, 0.4, 0.5);
         Ag ag = new Ag();
         Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER);
 

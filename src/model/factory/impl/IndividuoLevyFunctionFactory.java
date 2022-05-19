@@ -7,15 +7,16 @@ import model.individuo.IndividuoLevyFunction;
 public class IndividuoLevyFunctionFactory implements IndividuoFactory {
 
     private final int nDimensoes;
-    private final Double chanceMutacao;
+    private final Double limInferior, limSuperior;
 
-    public IndividuoLevyFunctionFactory(int nDimensoes, Double chanceMutacao) {
+    public IndividuoLevyFunctionFactory(int nDimensoes, Double limInferior, Double limSuperior) {
         this.nDimensoes = nDimensoes;
-        this.chanceMutacao = chanceMutacao;
+        this.limInferior = limInferior;
+        this.limSuperior = limSuperior;
     }
 
     @Override
     public Individuo getIndividuo() {
-        return new IndividuoLevyFunction(nDimensoes, chanceMutacao);
+        return new IndividuoLevyFunction(nDimensoes, limInferior, limSuperior);
     }
 }
