@@ -26,7 +26,7 @@ public class Utils {
 
         System.out.println("\nGeração  --  Avaliação  -- Genes indivíduo");
         System.out.print(nGer + "\t\t\t");
-        System.out.printf("  %1.4f\t\t", individuoGaussiano.getAvaliacao());
+        System.out.printf("  %1.6f\t\t", individuoGaussiano.getAvaliacao());
 
         for(Double gene : genes) {
             System.out.print(gene + "\t");
