@@ -1,7 +1,8 @@
-package model.individuo;
+package model.individuo.functions;
+
+import model.individuo.Individuo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 

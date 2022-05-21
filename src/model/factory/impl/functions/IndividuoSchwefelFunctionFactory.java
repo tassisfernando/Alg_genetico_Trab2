@@ -1,8 +1,8 @@
-package model.factory.impl;
+package model.factory.impl.functions;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;
-import model.individuo.IndividuoSchwefelFunction;
+import model.individuo.functions.IndividuoSchwefelFunction;
 
 public class IndividuoSchwefelFunctionFactory implements IndividuoFactory {
 

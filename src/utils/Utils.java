@@ -1,7 +1,7 @@
 package utils;
 
 import model.individuo.Individuo;
-import model.individuo.IndividuoNRainhas;
+import model.individuo.nrainhas.IndividuoNRainhas;
 
 import java.util.ArrayList;
 import java.util.List;

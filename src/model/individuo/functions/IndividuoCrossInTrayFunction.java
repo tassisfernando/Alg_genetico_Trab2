@@ -1,4 +1,6 @@
-package model.individuo;
+package model.individuo.functions;
+
+import model.individuo.Individuo;
 
 import java.util.List;
 

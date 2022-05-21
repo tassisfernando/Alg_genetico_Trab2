@@ -1,4 +1,6 @@
-package model.individuo;
+package model.individuo.nrainhas;
+
+import model.individuo.Individuo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

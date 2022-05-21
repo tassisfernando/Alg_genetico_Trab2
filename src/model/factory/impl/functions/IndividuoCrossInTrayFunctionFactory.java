@@ -1,8 +1,8 @@
-package model.factory.impl;
+package model.factory.impl.functions;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;
-import model.individuo.IndividuoCrossInTrayFunction;
+import model.individuo.functions.IndividuoCrossInTrayFunction;
 
 public class IndividuoCrossInTrayFunctionFactory implements IndividuoFactory {
 

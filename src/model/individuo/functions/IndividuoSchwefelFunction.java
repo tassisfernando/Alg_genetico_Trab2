@@ -1,4 +1,6 @@
-package model.individuo;
+package model.individuo.functions;
+
+import model.individuo.Individuo;
 
 import java.util.List;
 
@@ -28,11 +30,6 @@ public class IndividuoSchwefelFunction extends IndividuoGaussiano {
         return avaliacaoPrimeira - avaliacaoSegunda;
     }
 
-    @Override
-    public Individuo getNewInstance(List<Double> genes) {
-        return new IndividuoSchwefelFunction(nDimensoes, genes);
-    }
-
     private Double getSomatorioSchwefel() {
         double avaliacao = ZERO.doubleValue();
         for(int i = ONE.intValue(); i <= nDimensoes; i++) {
@@ -41,5 +38,10 @@ public class IndividuoSchwefelFunction extends IndividuoGaussiano {
         }
 
         return avaliacao;
+    }
+
+    @Override
+    public Individuo getNewInstance(List<Double> genes) {
+        return new IndividuoSchwefelFunction(nDimensoes, genes);
     }
 }

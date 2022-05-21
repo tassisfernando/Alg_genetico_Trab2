@@ -1,8 +1,8 @@
-package model.factory.impl;
+package model.factory.impl.nrainhas;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;
-import model.individuo.IndividuoNRainhas;
+import model.individuo.nrainhas.IndividuoNRainhas;
 
 public class IndividuoNRainhasFactory implements IndividuoFactory {
 

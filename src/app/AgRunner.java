@@ -2,7 +2,7 @@ package app;
 
 import engine.Ag;
 import model.factory.IndividuoFactory;
-import model.factory.impl.IndividuoLevyFunctionFactory;
+import model.factory.impl.functions.IndividuoLevyFunctionFactory;
 import model.individuo.Individuo;
 
 import static utils.Utils.printInd;

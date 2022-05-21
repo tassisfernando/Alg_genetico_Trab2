@@ -1,8 +1,8 @@
-package model.factory.impl;
+package model.factory.impl.functions;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;
-import model.individuo.IndividuoLevyFunction;
+import model.individuo.functions.IndividuoLevyFunction;
 
 public class IndividuoLevyFunctionFactory implements IndividuoFactory {
 
