@@ -32,7 +32,7 @@ public class IndividuoSchwefelFunction extends IndividuoGaussiano {
 
     private Double getSomatorioSchwefel() {
         double avaliacao = ZERO.doubleValue();
-        for(int i = ONE.intValue(); i <= nDimensoes; i++) {
+        for(int i = ZERO.intValue(); i < nDimensoes; i++) {
             double xi = this.genes.get(i);
             avaliacao = avaliacao + xi * sin(sqrt(abs(xi)));
         }

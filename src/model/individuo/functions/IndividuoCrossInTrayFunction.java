@@ -29,8 +29,8 @@ public class IndividuoCrossInTrayFunction extends IndividuoGaussiano {
         Double genPosUm = this.genes.get(ONE.intValue());
 
         double parte1 = sin(genPosZero) * sin(genPosUm);
-        double parte2 = exp(Math.abs(CEM - ((sqrt(pow(genPosZero, DOIS) + pow(genPosUm, DOIS))) / PI)));
-        double parte3 = Math.abs(parte1 * parte2) + ONE.intValue();
+        double parte2 = exp(abs(CEM - ((sqrt(pow(genPosZero, DOIS) + pow(genPosUm, DOIS))) / PI)));
+        double parte3 = abs(parte1 * parte2) + ONE.intValue();
 
         return -0.0001 * pow(parte3, 0.1);
     }

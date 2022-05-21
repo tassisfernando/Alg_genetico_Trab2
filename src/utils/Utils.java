@@ -1,7 +1,7 @@
 package utils;
 
 import model.individuo.Individuo;
-import model.individuo.nrainhas.IndividuoNRainhas;
+import model.individuo.functions.IndividuoGaussiano;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,27 +12,23 @@ public class Utils {
 
     public final static int MENOS_UM = -1;
     public final static int DOIS = 2;
+    public final static Double QUATRO = 4D;
+    public final static Double DEZ = 10D;
     public final static int CEM = 100;
 
+    public final static Double CHANCE_MUTACAO = 0.1D;
     public final static Double SCHWEFEL_CONST = 418.9829D;
 
-    public static List<Integer> criarPosicoes(int max) {
-        List<Integer> posicoes = new ArrayList<>(max);
-        for(int i = ZERO.intValue(); i < max; i++) {
-            posicoes.add(i);
-        }
-        return posicoes;
-    }
 
     public static void printInd(Individuo indMelhor, int nGer) {
-        IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
-        List<Integer> genes = individuoNRainhas.getGenes();
+        IndividuoGaussiano individuoGaussiano = (IndividuoGaussiano) indMelhor;
+        List<Double> genes = individuoGaussiano.getGenes();
 
         System.out.println("\nGeração  --  Avaliação  -- Genes indivíduo");
         System.out.print(nGer + "\t\t\t");
-        System.out.printf("  %1.4f\t\t", individuoNRainhas.getAvaliacao());
+        System.out.printf("  %1.4f\t\t", individuoGaussiano.getAvaliacao());
 
-        for(Integer gene : genes) {
+        for(Double gene : genes) {
             System.out.print(gene + "\t");
         }
     }

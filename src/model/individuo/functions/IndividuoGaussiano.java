@@ -2,13 +2,16 @@ package model.individuo.functions;
 
 import model.individuo.Individuo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.abs;
+import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
 import static java.util.Collections.shuffle;
+import static utils.Utils.CHANCE_MUTACAO;
 
 public abstract class IndividuoGaussiano extends Individuo {
 
@@ -67,8 +70,8 @@ public abstract class IndividuoGaussiano extends Individuo {
                 double valorF2 = pai2.genes.get(i) + alfa * abs(this.genes.get(i) - pai2.genes.get(i));
                 valorF2 = validaValorGene(valorF2);
 
-                genesFilho1.set(i,valorF1);
-                genesFilho2.set(i,valorF2);
+                genesFilho1.add(valorF1);
+                genesFilho2.add(valorF2);
             }
             Individuo filho1 = this.getNewInstance(genesFilho1);
             Individuo filho2 = this.getNewInstance(genesFilho2);
@@ -93,7 +96,26 @@ public abstract class IndividuoGaussiano extends Individuo {
 
     @Override
     public Individuo getMutante() {
-        return null;
+        List<Double> genesMutante = new ArrayList<>(genes);
+        int cont = 0;
+
+        for(int i = 0; i < nDimensoes; i++) {
+            double chanceMutar = random.nextDouble();
+
+            if(chanceMutar <= CHANCE_MUTACAO) {
+                double ruido = random.nextGaussian();
+                genesMutante.set(i, genesMutante.get(i) + ruido);
+                cont++;
+            }
+        }
+
+        if(cont == ZERO.intValue()) {
+            int pos = random.nextInt(nDimensoes);
+            double ruido = random.nextGaussian();
+            genesMutante.set(pos, genesMutante.get(pos) + ruido);
+        }
+
+        return this.getNewInstance(genesMutante);
     }
 
     @Override
@@ -105,4 +127,8 @@ public abstract class IndividuoGaussiano extends Individuo {
     }
 
     public abstract Individuo getNewInstance(List<Double> genes);
+
+    public List<Double> getGenes() {
+        return genes;
+    }
 }

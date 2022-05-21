@@ -1,4 +1,4 @@
-package model.factory.impl.functions;
+package model.factory.impl;
 
 import model.factory.IndividuoFactory;
 import model.individuo.Individuo;

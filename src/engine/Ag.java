@@ -22,7 +22,7 @@ public class Ag {
         random = new Random();
     }
 
-    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer) {
+    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer, double desloc) {
         List<Individuo> popPais = new ArrayList<>();
         List<Individuo> popFilhos;
         List<Individuo> popMutantes;
@@ -59,7 +59,7 @@ public class Ag {
             popJoin.removeAll(popElite);
 
             // Seleciona pela roleta o restante
-            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite, isMax);
+            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite, isMax, desloc);
             popNova.addAll(restanteList);
 
             popNova = isMax ?
@@ -115,14 +115,14 @@ public class Ag {
                 popJoin.stream().sorted().limit(nElite).collect(Collectors.toList());
     }
 
-    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax) {
+    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax, double desloc) {
         List<Individuo> popTemp = new ArrayList<>(joinPop);
         List<Individuo> popSelec = new ArrayList<>();
         shuffle(popTemp);
 
         Individuo escolhido;
         for(int i = ZERO.intValue(); i < nRestantes; i++) {
-            escolhido = roleta(popTemp, isMax);
+            escolhido = roleta(popTemp, isMax, desloc);
             popSelec.add(escolhido);
             popTemp.remove(escolhido);
         }
@@ -130,19 +130,20 @@ public class Ag {
         return popSelec;
     }
 
-    private Individuo roleta(List<Individuo> pop, boolean isMax) {
+    private Individuo roleta(List<Individuo> pop, boolean isMax, double desloc) {
         double somaAvaliacao = isMax ?
-                pop.stream().mapToDouble(Individuo::getAvaliacao).sum() :
-                pop.stream().mapToDouble(individuo -> ONE.doubleValue() / individuo.getAvaliacao()).sum();
+                pop.stream().mapToDouble(individuo -> individuo.getAvaliacao() + desloc).sum() :
+                pop.stream().mapToDouble(individuo -> desloc + (ONE.doubleValue() / individuo.getAvaliacao())).sum();
 
         double limite = Math.random() * somaAvaliacao;
         Double aux = ZERO.doubleValue();
         int pos;
 
         for(pos = ZERO.intValue(); ((pos < pop.size()) && (aux < limite)); pos++) {
-            aux += pop.get(pos).getAvaliacao();
+            aux += pop.get(pos).getAvaliacao() + desloc;
         }
-        pos--;
+
+        pos = (pos != ZERO.intValue()) ? pos - ONE.intValue() : pos;
 
         return pop.get(pos);
     }
