@@ -13,15 +13,15 @@ public class AgRunner {
 
     public static void main(String[] args) {
         final int N_POP = 20;
-        final int N_DIMENSOES = 10;
+        final int N_DIMENSOES = 2;
         final int N_ELITE = 4;
         final int N_GER = 1000;
         final boolean IS_MAX = false;
         final double DESLOC = 0d, DESLOC_CROSS = -2.1D;
 
-        IndividuoFactory indFactory = new IndividuoCrossInTrayFunctionFactory(N_DIMENSOES);
+        IndividuoFactory indFactory = new IndividuoSchwefelFunctionFactory(N_DIMENSOES);
         Ag ag = new Ag();
-        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER, DESLOC_CROSS);
+        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER, DESLOC);
 
         printInd(ind, N_GER);
     }

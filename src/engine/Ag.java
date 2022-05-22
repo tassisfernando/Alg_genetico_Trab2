@@ -131,9 +131,7 @@ public class Ag {
     }
 
     private Individuo roleta(List<Individuo> pop, boolean isMax, double desloc) {
-        double somaAvaliacao = isMax ?
-                pop.stream().mapToDouble(individuo -> individuo.getAvaliacao() + desloc).sum() :
-                pop.stream().mapToDouble(individuo -> desloc + (ONE.doubleValue() / individuo.getAvaliacao())).sum();
+        double somaAvaliacao = calculaSomaAvaliacoes(pop, isMax, desloc);
 
         double limite = Math.random() * somaAvaliacao;
         Double aux = ZERO.doubleValue();
@@ -146,5 +144,11 @@ public class Ag {
         pos = (pos != ZERO.intValue()) ? pos - ONE.intValue() : pos;
 
         return pop.get(pos);
+    }
+
+    private Double calculaSomaAvaliacoes(List<Individuo> pop, boolean isMax, double desloc) {
+        return isMax ?
+                pop.stream().mapToDouble(individuo -> individuo.getAvaliacao() + desloc).sum() :
+                pop.stream().mapToDouble(individuo -> desloc + (ONE.doubleValue() / individuo.getAvaliacao())).sum();
     }
 }

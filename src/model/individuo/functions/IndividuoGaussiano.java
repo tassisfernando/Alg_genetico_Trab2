@@ -41,7 +41,7 @@ public abstract class IndividuoGaussiano extends Individuo {
     private List<Double> geraGenes(int nGenes) {
         List<Double> genes = new ArrayList<>(nGenes);
         for (int i = 0; i < nGenes; i++) {
-            double valor = random.nextDouble() * nGenes;
+            double valor = this.limInferior + (this.limSuperior - this.limInferior) * random.nextDouble();
             while (genes.contains(valor)) {
                 valor = random.nextInt(nGenes);
             }
@@ -97,22 +97,22 @@ public abstract class IndividuoGaussiano extends Individuo {
     @Override
     public Individuo getMutante() {
         List<Double> genesMutante = new ArrayList<>(genes);
-        int cont = 0;
+        boolean houveMutacao = false;
 
         for(int i = 0; i < nDimensoes; i++) {
             double chanceMutar = random.nextDouble();
 
             if(chanceMutar <= CHANCE_MUTACAO) {
-                double ruido = random.nextGaussian();
-                genesMutante.set(i, genesMutante.get(i) + ruido);
-                cont++;
+                double geneMut = validaValorGene(genesMutante.get(i)  + random.nextGaussian());
+                genesMutante.set(i, geneMut);
+                houveMutacao = true;
             }
         }
 
-        if(cont == ZERO.intValue()) {
+        if(houveMutacao) {
             int pos = random.nextInt(nDimensoes);
-            double ruido = random.nextGaussian();
-            genesMutante.set(pos, genesMutante.get(pos) + ruido);
+            double geneMut = validaValorGene(genesMutante.get(pos)  + random.nextGaussian());
+            genesMutante.set(pos, geneMut);
         }
 
         return this.getNewInstance(genesMutante);
