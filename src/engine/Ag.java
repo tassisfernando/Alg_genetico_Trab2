@@ -1,7 +1,7 @@
-package domain;
+package engine;
 
-import domain.factory.IndividuoFactory;
-import domain.individuo.Individuo;
+import model.factory.IndividuoFactory;
+import model.individuo.Individuo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Collections.shuffle;
 import static java.util.Comparator.reverseOrder;
+import static utils.Utils.printInd;
 
 public class Ag {
 
@@ -21,7 +22,7 @@ public class Ag {
         random = new Random();
     }
 
-    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer) {
+    public Individuo executar(int nPop, IndividuoFactory indFactory, int nElite, boolean isMax, int nGer, double desloc) {
         List<Individuo> popPais = new ArrayList<>();
         List<Individuo> popFilhos;
         List<Individuo> popMutantes;
@@ -58,7 +59,7 @@ public class Ag {
             popJoin.removeAll(popElite);
 
             // Seleciona pela roleta o restante
-            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite, isMax);
+            List<Individuo> restanteList = this.selecao(popJoin, nPop - nElite, isMax, desloc);
             popNova.addAll(restanteList);
 
             popNova = isMax ?
@@ -72,6 +73,8 @@ public class Ag {
             popElite.clear();
             popMutantes.clear();
             popFilhos.clear();
+
+            printInd(popPais.stream().findFirst().get(), i);
         }
 
         return popPais.stream().findFirst().orElse(null);
@@ -112,14 +115,14 @@ public class Ag {
                 popJoin.stream().sorted().limit(nElite).collect(Collectors.toList());
     }
 
-    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax) {
+    private List<Individuo> selecao(List<Individuo> joinPop, int nRestantes, boolean isMax, double desloc) {
         List<Individuo> popTemp = new ArrayList<>(joinPop);
         List<Individuo> popSelec = new ArrayList<>();
         shuffle(popTemp);
 
         Individuo escolhido;
         for(int i = ZERO.intValue(); i < nRestantes; i++) {
-            escolhido = roleta(popTemp, isMax);
+            escolhido = roleta(popTemp, isMax, desloc);
             popSelec.add(escolhido);
             popTemp.remove(escolhido);
         }
@@ -127,20 +130,25 @@ public class Ag {
         return popSelec;
     }
 
-    private Individuo roleta(List<Individuo> pop, boolean isMax) {
-        double somaAvaliacao = isMax ?
-                pop.stream().mapToDouble(Individuo::getAvaliacao).sum() :
-                pop.stream().mapToDouble(individuo -> ONE.doubleValue() / individuo.getAvaliacao()).sum();
+    private Individuo roleta(List<Individuo> pop, boolean isMax, double desloc) {
+        double somaAvaliacao = calculaSomaAvaliacoes(pop, isMax, desloc);
 
         double limite = Math.random() * somaAvaliacao;
         Double aux = ZERO.doubleValue();
         int pos;
 
         for(pos = ZERO.intValue(); ((pos < pop.size()) && (aux < limite)); pos++) {
-            aux += pop.get(pos).getAvaliacao();
+            aux += pop.get(pos).getAvaliacao() + desloc;
         }
-        pos--;
+
+        pos = (pos != ZERO.intValue()) ? pos - ONE.intValue() : pos;
 
         return pop.get(pos);
+    }
+
+    private Double calculaSomaAvaliacoes(List<Individuo> pop, boolean isMax, double desloc) {
+        return isMax ?
+                pop.stream().mapToDouble(individuo -> individuo.getAvaliacao() + desloc).sum() :
+                pop.stream().mapToDouble(individuo -> desloc + (ONE.doubleValue() / individuo.getAvaliacao())).sum();
     }
 }

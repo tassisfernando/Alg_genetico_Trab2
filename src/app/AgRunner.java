@@ -1,39 +1,28 @@
 package app;
 
-import domain.Ag;
-import domain.factory.IndividuoFactory;
-import domain.factory.IndividuoNRainhasFactory;
-import domain.individuo.Individuo;
-import domain.individuo.IndividuoNRainhas;
+import engine.Ag;
+import model.factory.IndividuoFactory;
+import model.factory.impl.IndividuoCrossInTrayFunctionFactory;
+import model.factory.impl.IndividuoLevyFunctionFactory;
+import model.factory.impl.IndividuoSchwefelFunctionFactory;
+import model.individuo.Individuo;
 
-import java.util.List;
+import static utils.Utils.printInd;
 
 public class AgRunner {
 
     public static void main(String[] args) {
-        final int N_POP = 30;
-        final int N_RAINHAS = 100;
+        final int N_POP = 20;
+        final int N_DIMENSOES = 2;
         final int N_ELITE = 4;
-        final int N_GER = 2000;
+        final int N_GER = 1000;
         final boolean IS_MAX = false;
+        final double DESLOC = 0d, DESLOC_CROSS = -2.1D;
 
-        IndividuoFactory indFactory = new IndividuoNRainhasFactory(N_RAINHAS);
+        IndividuoFactory indFactory = new IndividuoSchwefelFunctionFactory(N_DIMENSOES);
         Ag ag = new Ag();
-        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER);
+        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER, DESLOC);
 
         printInd(ind, N_GER);
-    }
-
-    private static void printInd(Individuo indMelhor, int nGer) {
-        IndividuoNRainhas individuoNRainhas = (IndividuoNRainhas) indMelhor;
-        List<Integer> genes = individuoNRainhas.getGenes();
-
-        System.out.println("Geração  --  Colisões  -- Genes indivíduo");
-        System.out.print(nGer + "\t\t");
-        System.out.printf("  %1.4f\t", individuoNRainhas.getAvaliacao());
-
-        for(Integer gene : genes) {
-            System.out.print(gene + "\t");
-        }
     }
 }
