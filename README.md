@@ -1,10 +1,20 @@
-# Algoritmo Genético
+# Algoritmo Genético - Trabalho 2
 
 Disciplina: Inteligência Artificial 2022.1
 
-## Problema das N-Rainhas
+## Funções de minimização
+Foi proposta uma solução em Java para buscar uma otimização de funções, passando como parâmetro o número de dimensões a ser considerada na análise da função e encontrar seu mínimo/máximo.
 
-Foi proposta uma solução em Java para buscar uma otimização do problema, com o caso em que tenha o menor número de colisões possível entre as rainhas.
+As funções estudadas foram:
+- CROSS-IN-TRAY FUNCTION (http://www.sfu.ca/~ssurjano/crossit.html)
+![alt text](http://www.sfu.ca/~ssurjano/crossit.png)
+
+- LEVY FUNCTION (http://www.sfu.ca/~ssurjano/levy.html)
+
+![alt text](http://www.sfu.ca/~ssurjano/levy.png)
+
+- SCHWEFEL FUNCTION (http://www.sfu.ca/~ssurjano/schwef.html)
+![alt text](http://www.sfu.ca/~ssurjano/schwef.png)
 
 A lógica de execução do AG está representado na figura abaixo:
 
