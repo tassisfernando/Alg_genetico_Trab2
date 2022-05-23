@@ -43,7 +43,7 @@ public abstract class IndividuoGaussiano extends Individuo {
         for (int i = 0; i < nGenes; i++) {
             double valor = this.limInferior + (this.limSuperior - this.limInferior) * random.nextDouble();
             while (genes.contains(valor)) {
-                valor = random.nextInt(nGenes);
+                valor = this.limInferior + (this.limSuperior - this.limInferior) * random.nextDouble();
             }
             genes.add(valor);
         }
