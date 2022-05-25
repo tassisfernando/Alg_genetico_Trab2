@@ -19,9 +19,9 @@ public class AgRunner {
         final boolean IS_MAX = false;
         final double DESLOC = 0d, DESLOC_CROSS = -2.1D;
 
-        IndividuoFactory indFactory = new IndividuoSchwefelFunctionFactory(N_DIMENSOES);
+        IndividuoFactory indFactory = new IndividuoCrossInTrayFunctionFactory(N_DIMENSOES);
         Ag ag = new Ag();
-        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER, DESLOC);
+        Individuo ind = ag.executar(N_POP, indFactory, N_ELITE, IS_MAX, N_GER, DESLOC_CROSS);
 
         printInd(ind, N_GER);
     }

@@ -85,10 +85,10 @@ public abstract class IndividuoGaussiano extends Individuo {
     private Double validaValorGene(Double valor) {
         Double novoValor = valor;
         if (valor < this.limInferior) {
-            novoValor = this.limInferior;
+            novoValor = this.limInferior * 0.1;
         }
         else if (valor > this.limSuperior) {
-            novoValor = this.limSuperior;
+            novoValor = this.limSuperior * 0.1;
         }
 
         return novoValor;

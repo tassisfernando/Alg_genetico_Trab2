@@ -29,7 +29,7 @@ public class Utils {
         System.out.printf("  %1.6f\t\t", individuoGaussiano.getAvaliacao());
 
         for(Double gene : genes) {
-            System.out.print(gene + "\t");
+            System.out.printf("%1.5f \t", gene);
         }
     }
 }
